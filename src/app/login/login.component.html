@@ -1,0 +1,46 @@
+<div class="login">
+  <div class="login-panel">
+    <div class="grid img">
+      <img src="/assets/Logo.png" alt="" />
+    </div>
+    <form #form="ngForm" (submit)="onLogin(form)">
+      <div class="grid">
+        <div class="col-12 mt-5">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input
+              type="text"
+              pInputText
+              placeholder="Username"
+              name="username"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+            <p-password
+              ngModel
+              required
+              name="password"
+              [toggleMask]="true"
+              [feedback]="false"
+              styleClass="w-full"
+              placeholder="Password"
+            ></p-password>
+          </div>
+        </div>
+        <div class="col-12 text-center mt-3">
+          <button
+            pButton
+            label="login"
+            type="submit"
+            [disabled]="form.invalid"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

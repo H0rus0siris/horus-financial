@@ -1,0 +1,26 @@
+.login {
+  height: 100vh;
+
+  &-panel {
+    width: 650px;
+    height: 450px;
+    background-color: rgb(90, 90, 90);
+    position: absolute;
+    left: calc(50% - 325px);
+    top: calc(50% - 225px);
+    background-color: black;
+    border-radius: 1em;
+    .img {
+      height: 160px;
+      display: flex;
+      justify-content: center;
+      img {
+        max-height: 100%;
+      }
+    }
+
+    .col-12 {
+      padding: 10px 100px;
+    }
+  }
+}

@@ -1,0 +1,298 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <p-button label="New" icon="pi pi-plus" (click)="showDialog()"></p-button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <p class="totalNumber">Total: {{ totalNumber }}</p>
+  </div>
+</p-toolbar>
+
+<p-table
+  [value]="clients"
+  styleClass="p-datatable-gridlines"
+  responsiveLayout="scroll"
+  [paginator]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  dataKey="name"
+  #dt1
+  [globalFilterFields]="[
+    'name',
+    'client.name',
+    'representative.name',
+    'status'
+  ]"
+>
+  <ng-template pTemplate="caption">
+    <div class="text-center">
+      <input
+        pInputText
+        type="text"
+        class="search-input"
+        (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+        placeholder="Search keyword"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-client>
+    <tr>
+      <th class="text-center">Image</th>
+      <th pSortableColumn="name">
+        Name <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th class="text-center">R.T</th>
+      <th class="text-center">L.P</th>
+      <th class="text-center">S.P</th>
+      <th class="text-center">L.B</th>
+      <th class="text-center">S.B</th>
+      <th class="text-center" pSortableColumn="total">
+        Total <p-sortIcon field="total"></p-sortIcon>
+      </th>
+      <th class="text-center">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-client>
+    <tr>
+      <td style="width: 200px; text-align: center">
+        <img [src]="client.image.url" alt="" class="client-image" />
+      </td>
+      <td class="client-name">
+        {{ client.name }}
+        <button
+          pButton
+          style="float: right"
+          icon="pi pi-eye"
+          (click)="onShowHistory(client)"
+          pTooltip="History"
+          tooltipPosition="bottom"
+        ></button>
+      </td>
+      <td class="text-center">
+        <p-inputNumber
+          (onInput)="onChangeNumber($event, client, 'remotly')"
+          [(ngModel)]="client.remotly.number"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          [min]="0"
+          inputId="vertical"
+          decrementButtonClass="p-button-secondary"
+          incrementButtonClass="p-button-secondary"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        >
+        </p-inputNumber>
+      </td>
+      <td class="text-center">
+        <p-inputNumber
+          (onInput)="onChangeNumber($event, client, 'liveP')"
+          [(ngModel)]="client.livePrivate.number"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          inputId="vertical"
+          [min]="0"
+          decrementButtonClass="p-button-secondary"
+          incrementButtonClass="p-button-secondary"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        >
+        </p-inputNumber>
+      </td>
+      <td class="text-center">
+        <p-inputNumber
+          (onInput)="onChangeNumber($event, client, 'spotP')"
+          [(ngModel)]="client.spotPrivate.number"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          inputId="vertical"
+          [min]="0"
+          decrementButtonClass="p-button-secondary"
+          incrementButtonClass="p-button-secondary"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        >
+        </p-inputNumber>
+      </td>
+      <td class="text-center">
+        <p-inputNumber
+          (onInput)="onChangeNumber($event, client, 'liveB')"
+          [(ngModel)]="client.liveBootcamp.number"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          inputId="vertical"
+          [min]="0"
+          decrementButtonClass="p-button-secondary"
+          incrementButtonClass="p-button-secondary"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        >
+        </p-inputNumber>
+      </td>
+      <td class="text-center">
+        <p-inputNumber
+          (onInput)="onChangeNumber($event, client, 'spotB')"
+          [(ngModel)]="client.spotBootcamp.number"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          inputId="vertical"
+          [min]="0"
+          decrementButtonClass="p-button-secondary"
+          incrementButtonClass="p-button-secondary"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        >
+        </p-inputNumber>
+      </td>
+      <td class="client-total text-center">{{ client.total }}</td>
+
+      <td style="width: 150px; text-align: center">
+        <button
+          [ngClass]="{ hidden: !client.showSaveBtn }"
+          pButton
+          icon="pi pi-save"
+          pTooltip="Save"
+          class="p-button-success mr-3"
+          tooltipPosition="bottom"
+          (click)="onSave(client)"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          pTooltip="Delete"
+          tooltipPosition="bottom"
+          class="p-button-danger"
+          (click)="onDeleteClient($event, client._id)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<button
+  pButton
+  (click)="clearAll()"
+  icon="pi pi-times"
+  class="p-button-help"
+  label="Clear All"
+></button>
+<p-dialog
+  header="Create"
+  [(visible)]="showCreateDialog"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="form">
+    <div class="col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Username"
+          name="name"
+          formControlName="name"
+        />
+      </div>
+    </div>
+    <div class="image-upload mt-5">
+      <input
+        type="file"
+        style="display: none"
+        #inputFile
+        accept="image/*"
+        name="image"
+        (change)="onImageUpload($event)"
+      />
+      <p-button label="Upload Image" (click)="inputFile.click()"></p-button>
+    </div>
+    <div class="text-center" *ngIf="imageDisplay">
+      <img class="image-display" [src]="imageDisplay" alt="" />
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      icon="pi pi-check"
+      type="submit"
+      (click)="onCreate()"
+      label="Create"
+      styleClass="p-button-text"
+      [disabled]="form.invalid"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  header="History of {{ fetchedClient?.name }}"
+  [(visible)]="showHistoryDialog"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="grid">
+    <div class="col-2 col-offset-1 text-center">
+      <h3>R.T</h3>
+      <p *ngFor="let remotlyDate of fetchedClient?.remotly?.dates">
+        {{ remotlyDate | date: "short" }}
+      </p>
+    </div>
+    <p-divider layout="vertical" styleClass="m-0"></p-divider>
+    <div class="col-2 text-center">
+      <h3>L.P</h3>
+      <p *ngFor="let livePrivateDate of fetchedClient?.livePrivate?.dates">
+        {{ livePrivateDate | date: "short" }}
+      </p>
+    </div>
+    <p-divider layout="vertical" styleClass="m-0"></p-divider>
+
+    <div class="col-2 text-center">
+      <h3>S.P</h3>
+      <p *ngFor="let spotPrivateDate of fetchedClient?.spotPrivate?.dates">
+        {{ spotPrivateDate | date: "short" }}
+      </p>
+    </div>
+    <p-divider layout="vertical" styleClass="m-0"></p-divider>
+
+    <div class="col-2 text-center">
+      <h3>L.B</h3>
+      <p *ngFor="let liveBootcampDate of fetchedClient?.liveBootcamp?.dates">
+        {{ liveBootcampDate | date: "short" }}
+      </p>
+    </div>
+    <p-divider layout="vertical" styleClass="m-0"></p-divider>
+
+    <div class="col-2 text-center">
+      <h3>S.B</h3>
+      <p *ngFor="let spotBootcampDate of fetchedClient?.spotBootcamp?.dates">
+        {{ spotBootcampDate | date: "short" }}
+      </p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      class="p-button-danger"
+      label="Remove All Dates"
+      style="float: left"
+      (click)="removeAllDates($event)"
+    ></button>
+    <p-button
+      icon="pi pi-check"
+      (click)="showHistoryDialog = false"
+      label="Ok"
+      styleClass="p-button-text"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>

@@ -1,0 +1,52 @@
+.image-display {
+  margin-top: 30px;
+  width: 400px;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.client {
+  &-image {
+    max-width: 100%;
+    height: 120px;
+    border-radius: 10px;
+  }
+  &-name {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  &-total {
+    font-size: 2em;
+    font-weight: bold;
+  }
+}
+
+.totalNumber {
+  color: white;
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.search-input {
+  width: 30%;
+}
+
+.p-button-help {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+::ng-deep {
+  .p-inputwrapper {
+    .p-inputnumber {
+      width: 50px;
+    }
+
+    .p-inputnumber-button-up, .p-inputnumber-button-down {
+      height: 10px;
+    }
+  }
+}
