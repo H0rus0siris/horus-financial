@@ -11,9 +11,6 @@
   [value]="clients"
   styleClass="p-datatable-gridlines"
   responsiveLayout="scroll"
-  [paginator]="true"
-  [rows]="10"
-  [showCurrentPageReport]="true"
   dataKey="name"
   #dt1
   [globalFilterFields]="[
@@ -40,11 +37,11 @@
       <th pSortableColumn="name">
         Name <p-sortIcon field="name"></p-sortIcon>
       </th>
-      <th class="text-center">R.T</th>
-      <th class="text-center">L.P</th>
-      <th class="text-center">S.P</th>
-      <th class="text-center">L.B</th>
-      <th class="text-center">S.B</th>
+      <th class="text-center">Remotly</th>
+      <th class="text-center">Virtual Private</th>
+      <th class="text-center">Spot Private</th>
+      <th class="text-center">Virtual Bootcamp</th>
+      <th class="text-center">Spot Bootcamp</th>
       <th class="text-center" pSortableColumn="total">
         Total <p-sortIcon field="total"></p-sortIcon>
       </th>
@@ -231,20 +228,20 @@
   header="History of {{ fetchedClient?.name }}"
   [(visible)]="showHistoryDialog"
   [modal]="true"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '70vw' }"
   [draggable]="false"
   [resizable]="false"
 >
   <div class="grid">
     <div class="col-2 col-offset-1 text-center">
-      <h3>R.T</h3>
+      <h3>Remotly</h3>
       <p *ngFor="let remotlyDate of fetchedClient?.remotly?.dates">
         {{ remotlyDate | date: "short" }}
       </p>
     </div>
     <p-divider layout="vertical" styleClass="m-0"></p-divider>
     <div class="col-2 text-center">
-      <h3>L.P</h3>
+      <h3>Virtual Private</h3>
       <p *ngFor="let livePrivateDate of fetchedClient?.livePrivate?.dates">
         {{ livePrivateDate | date: "short" }}
       </p>
@@ -252,7 +249,7 @@
     <p-divider layout="vertical" styleClass="m-0"></p-divider>
 
     <div class="col-2 text-center">
-      <h3>S.P</h3>
+      <h3>Spot Private</h3>
       <p *ngFor="let spotPrivateDate of fetchedClient?.spotPrivate?.dates">
         {{ spotPrivateDate | date: "short" }}
       </p>
@@ -260,7 +257,7 @@
     <p-divider layout="vertical" styleClass="m-0"></p-divider>
 
     <div class="col-2 text-center">
-      <h3>L.B</h3>
+      <h3>Virtual Bootcamp</h3>
       <p *ngFor="let liveBootcampDate of fetchedClient?.liveBootcamp?.dates">
         {{ liveBootcampDate | date: "short" }}
       </p>
@@ -268,7 +265,7 @@
     <p-divider layout="vertical" styleClass="m-0"></p-divider>
 
     <div class="col-2 text-center">
-      <h3>S.B</h3>
+      <h3>Spot Bootcamp</h3>
       <p *ngFor="let spotBootcampDate of fetchedClient?.spotBootcamp?.dates">
         {{ spotBootcampDate | date: "short" }}
       </p>
