@@ -51,10 +51,18 @@
     }
   }
 
-  .p-toolbar {
+  .p-toolbar{
     position: sticky;
     position: -webkit-sticky;
     z-index: 10000;
     top: 0;
   }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 10000;
+    top: 85px;
+  }
+
 }
